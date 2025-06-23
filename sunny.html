@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sunny Title Card</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 2em;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #card {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="card"></div>
+
+  <script>
+    window.onload = function () {
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const location = "Philadelphia, PA";
+
+      function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHour = ((hours + 11) % 12 + 1);
+        return `${formattedHour}:${minutes} ${ampm}`;
+      }
+
+      function getCurrentDay() {
+        return `On a ${days[new Date().getDay()]}`;
+      }
+
+      const cardFuncs = [
+        getCurrentTime,
+        getCurrentDay,
+        () => location
+      ];
+
+      let index = 0;
+      const display = document.getElementById("card");
+
+      function updateCard() {
+        display.textContent = cardFuncs[index]();
+        index = (index + 1) % cardFuncs.length;
+      }
+
+      updateCard(); // Initial display
+      setInterval(updateCard, 5000);
+    };
+  </script>
+</body>
+</html>
